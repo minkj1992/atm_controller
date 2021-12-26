@@ -77,31 +77,31 @@ def test_enter_pin_exceed_max_try_count(account: Account, card: Card, simple_atm
     assert simple_atm.pin_try_cache[account.uuid] == MAX_PIN_RETRY_COUNT
 
 
-def test_get_balance_success(card: Card, account: Account, simple_atm: AtmController):
+def test_get_account_balance_success(card: Card, account: Account, simple_atm: AtmController):
     # when
     simple_atm.insert_card(card)
     simple_atm.enter_pin(account.get_pin_number())
 
     # then
-    assert account.balance == simple_atm.get_balance()
+    assert account.balance == simple_atm.get_account_balance()
 
 
-def test_get_balance_without_inserted_card(simple_atm: AtmController):
+def test_get_account_balance_without_inserted_card(simple_atm: AtmController):
     # then
     with pytest.raises(AccountNotFoundException) as err:
-        simple_atm.get_balance()
+        simple_atm.get_account_balance()
     print(err.value)
     assert simple_atm.card_reader._is_slot_empty() is True  # noqa
     assert simple_atm.current_account is None
 
 
-def test_get_balance_without_enter_pin(card: Card, simple_atm: AtmController):
+def test_get_account_balance_without_enter_pin(card: Card, simple_atm: AtmController):
     # when
     simple_atm.insert_card(card)
 
     # then
     with pytest.raises(AccountNotFoundException) as err:
-        simple_atm.get_balance()
+        simple_atm.get_account_balance()
     print(err.value)
     assert simple_atm.card_reader._is_slot_empty() is True  # noqa
     assert simple_atm.current_account is None

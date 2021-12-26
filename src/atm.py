@@ -38,7 +38,7 @@ class AtmController:
         account_uuid = self.card_reader.read_card_owner_info()
 
         if self.pin_try_cache[account_uuid] >= MAX_PIN_RETRY_COUNT:
-            self.exit()
+            self._exit()
             raise ExceedMaxPinTryCountException()
 
         self.pin_try_cache[account_uuid] += 1
@@ -50,14 +50,9 @@ class AtmController:
             print(err)
             print(f"Please re enter pin number (try count: {self.pin_try_cache[account_uuid]})")
 
-    def exit(self):
-        print("Exit ATM process!")
-        self.card_reader.clear()
-        self.current_account = None
-
-    def get_balance(self) -> int:
+    def get_account_balance(self) -> int:
         if not self.current_account:
-            self.exit()
+            self._exit()
             raise AccountNotFoundException()
         return self.current_account.balance
 
@@ -81,8 +76,13 @@ class AtmController:
             )
         )
 
+    def _exit(self):
+        print("Exit ATM process!")
+        self.card_reader.clear()
+        self.current_account = None
+
     def _execute(self, transaction: Transaction) -> None:
         if not self.current_account:
-            self.exit()
+            self._exit()
             raise AccountNotFoundException()
         transaction.execute()
