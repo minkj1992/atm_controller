@@ -1,7 +1,6 @@
 import random
 import string
 
-import decorator
 import pytest
 
 
@@ -10,6 +9,8 @@ def generate_pin_number() -> str:
 
 
 def expect_no_raises(fn):
+    import decorator
+
     """
     Expect not to raise exception decorator for pytest
     """

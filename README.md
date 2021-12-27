@@ -1,42 +1,39 @@
 # Atm Controller
 > Simple Atm controller
 
-## 1. Run
+![](./static/requirements.png)
+
+
+## 1. Run Tests
+
 - `pipenv`
 ```bash
-$ brew install pipenv
 $ pipenv install --dev
-$ pipenv run python src/main.py
+$ pipenv run pytest
 ```
 
 - `venv`
 ```bash
 $ python -m venv .venv
 $ . .venv/bin/activate
-(.venv) $ pip install -r requirements.txt
-(.venv) $ python src/main.py
+(.venv) $ pip3 install --upgrade pip && pip3 install -r requirements.txt --no-cache-dir
+(.venv) $ pytest
 ```
 
-## 2. Tests
+- [pytest configuration](./pytest.ini)
+- [test fixtures](./tests/conftest.py)
+- [unit tests](./tests/unit/test_atm.py)
 
-- `pipenv`
-```bash
-$ pipenv install --dev
-$ pipenv run pytest .
-```
+- test screen shot
+![](./static/card.png)
+![](./static/pin.png)
+![](./static/balance.png)
+![](./static/deposit.png)
+![](./static/withdraw.png)
+- test coverate
+![](./static/cov_report.png)
 
-- `venv`
-```bash
-(.venv) $ pytest .
-```
-
-- @TODO
-    - bdd
-    - terminal screen shot
-    - cov screen shot
-
-
-## 3. Structure
+## 2. Structure
 
 ```bash
 .
@@ -54,37 +51,36 @@ $ pipenv run pytest .
 │   └── modules.py          # Define 3rd party hardware modules (cash_bin, card_reader)
 └── tests
     ├── conftest.py         # Define common "given" data to use before testing
-    ├── integration         # Integration test (bdd)
-    │   └──
+    ├── integration         # Integration test (bdd TODO:)
     ├── unit
     │   └── test_atm.py     # Simple atm controller unit test
     └── utils.py            # Test utils
 ```
 
 
-## 4. Key points
+## 3. Key points
 - Using `command pattern` with python protocol.
 - Implement `transaction` command, it can handle `undo` when exception happened.
 
-## 5. Features
-### 5-1. `Card`
+## 4. Features
+### 4-1. `Card`
 - [x] Insert card
     - [x] Check already card slot is occupied (pre-insert-validation)
 - [x] Eject card
     - [x] Check if card slot is empty (pre-eject-validation)
-### 5-2. `Pin` (`Account`)
+### 4-2. `Pin` (`Account`)
 - [x] Enter pin number
 - [x] Validate pin number
 - [x] Get account from card
 - [x] Allow retry of pin number entrance when wrong pin number is entered until `MAX_PIN_RETRY_COUNT`
-### 5-3. `Balance`
+### 4-3. `Balance`
 - [x] Get current account balance
     - Check if combination of card and pin number is authorized to the account (pre-get-balance-validation)
-### 5-4. `Deposit`
+### 4-4. `Deposit`
 - [x] Add cash deposit to cash-bin
 - [x] Add cash amount to current account balance
 - [x] Rollback when error occurred
-### 5-5. `Withdraw`
+### 4-5. `Withdraw`
 - [x] Subtract cash deposit amount from cash-bin
   - Check if cash in cash-bin is larger than requested cash withdrawal amount (pre-withdrawal check #1)
 - [x] Subtract cash deposit amount from current account balance

@@ -67,7 +67,7 @@ class Bank:
         print(f'"{account.name}" is registered from "{self.name}"')
         return account
 
-    def create_card(self, account_uuid: str) -> Card:
+    def register_card(self, account_uuid: str) -> Card:
         return Card(account_uuid, self.name)
 
     def validate_pin(self, account_uuid: str, pin_number: str) -> Account:

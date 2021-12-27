@@ -10,16 +10,6 @@ from src.modules import CashBin
 from tests.utils import generate_pin_number
 
 
-def pytest_configure():
-    try:
-        import rich
-    except ImportError:
-        pass
-    else:
-        rich.get_console()  # this is new !
-        rich.reconfigure(soft_wrap=False)
-
-
 @pytest.fixture()
 def bank() -> Bank:
     return Bank()
@@ -32,7 +22,7 @@ def account(bank: Bank) -> Account:
 
 @pytest.fixture()
 def card(bank: Bank, account: Account) -> Card:
-    return bank.create_card(account.uuid)
+    return bank.register_card(account.uuid)
 
 
 @pytest.fixture()
