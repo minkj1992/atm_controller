@@ -13,13 +13,14 @@ from src.exceptions import EmptyCardException
 from src.exceptions import ExceedMaxPinTryCountException
 from src.exceptions import InvalidCashAmountException
 from src.exceptions import NotEnoughBalanceException
-from tests.utils import expect_no_raises
 
 
-@expect_no_raises
 def test_insert_card_success(card: Card, simple_atm: AtmController):
     # then
-    simple_atm.insert_card(card)
+    try:
+        simple_atm.insert_card(card)
+    except Exception as err:
+        pytest.fail(f"Expect not to raise any err but occurred. {str(err)}")
 
 
 def test_insert_card_when_card_already_exist(card: Card, simple_atm: AtmController):
@@ -32,13 +33,14 @@ def test_insert_card_when_card_already_exist(card: Card, simple_atm: AtmControll
     print(err.value)
 
 
-@expect_no_raises
 def test_eject_card_success(card: Card, simple_atm: AtmController):
     # when
     simple_atm.insert_card(card)
 
-    # then
-    simple_atm.eject_card()
+    try:
+        simple_atm.eject_card()
+    except Exception as err:
+        pytest.fail(f"Expect not to raise any err but occurred. {str(err)}")
 
 
 def test_eject_card_before_card_insert(simple_atm: AtmController):

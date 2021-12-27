@@ -6,6 +6,8 @@
 
 ## 1. Run Tests
 
+- [dependencies](./Pipfile)
+
 - `pipenv`
 ```bash
 $ pipenv install --dev
@@ -19,6 +21,7 @@ $ . .venv/bin/activate
 (.venv) $ pip3 install --upgrade pip && pip3 install -r requirements.txt --no-cache-dir
 (.venv) $ pytest
 ```
+
 
 - [pytest configuration](./pytest.ini)
 - [test fixtures](./tests/conftest.py)
