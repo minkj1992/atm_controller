@@ -1,5 +1,5 @@
 # Atm Controller
-> Simple Atm Controller
+> Simple Atm controller
 
 ## 1. Run
 - `pipenv`
@@ -18,7 +18,6 @@ $ . .venv/bin/activate
 ```
 
 ## 2. Tests
-- [coverage html](./cov_html/index.html)
 
 - `pipenv`
 ```bash
@@ -34,6 +33,7 @@ $ pipenv run pytest .
 - @TODO
     - bdd
     - terminal screen shot
+    - cov screen shot
 
 
 ## 3. Structure
@@ -43,7 +43,6 @@ $ pipenv run pytest .
 ├── Pipfile                 # Pipenv(package manager)
 ├── .pre-commit-config.yaml # Pre-commit hooks(black, flake8, mypy, reorder-imports)
 ├── README.md
-├── cov_html                # Report test coverage
 ├── pytest.ini              # Pytest configuration
 ├── requirements.txt        # If you do not want to use pipenv, use venv
 ├── src
@@ -66,30 +65,28 @@ $ pipenv run pytest .
 ## 4. Key points
 - Using `command pattern` with python protocol.
 - Implement `transaction` command, it can handle `undo` when exception happened.
-- Error handling each stage. (insert_card > enter_pin > deposit/balance/withdraw)
+
 ## 5. Features
 ### 5-1. `Card`
-- [x] insert card
-- [x] eject card
-- [x] check already card slot is occupied (insert)
-- [x] check empty card slot (eject)
+- [x] Insert card
+    - [x] Check already card slot is occupied (pre-insert-validation)
+- [x] Eject card
+    - [x] Check if card slot is empty (pre-eject-validation)
 ### 5-2. `Pin` (`Account`)
-- [x] enter pin number
-- [x] validate pin number
-- [x] get account by card and validate pin number
-- [x] retry until `MAX_PIN_RETRY_COUNT` when wrong pin number is entered
-- [x] record retried `account_uuid` with atm cache (`pin_try_cache`)
+- [x] Enter pin number
+- [x] Validate pin number
+- [x] Get account from card
+- [x] Allow retry of pin number entrance when wrong pin number is entered until `MAX_PIN_RETRY_COUNT`
 ### 5-3. `Balance`
-- [x] get current account balance
-- [x] handling invalid try case to get account balance
-    - before insert card
-    - before enter pin
+- [x] Get current account balance
+    - Check if combination of card and pin number is authorized to the account (pre-get-balance-validation)
 ### 5-4. `Deposit`
-- [x] add amount to cash_bin
-- [x] add cash to current account
-- [x] rollback when error occurred
-
+- [x] Add cash deposit to cash-bin
+- [x] Add cash amount to current account balance
+- [x] Rollback when error occurred
 ### 5-5. `Withdraw`
-- [x] subtract amount from cash_bin
-- [x] withdraw cash from current account
-- [x] rollback when error occurred
+- [x] Subtract cash deposit amount from cash-bin
+  - Check if cash in cash-bin is larger than requested cash withdrawal amount (pre-withdrawal check #1)
+- [x] Subtract cash deposit amount from current account balance
+  - Check if cash in current account balance is larger than requested cash withdrawal amount (pre-withdrawal check #2)
+- [x] Rollback when error occurred

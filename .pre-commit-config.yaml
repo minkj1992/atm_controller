@@ -17,7 +17,6 @@ repos:
     -   id: check-added-large-files
     -   id: debug-statements
         language_version: python3
-        exclude: ^(cov_html/)
 
 -   repo: https://github.com/PyCQA/flake8
     rev: 3.9.2
@@ -43,4 +42,4 @@ repos:
     hooks:
     -   id: mypy
         files: ^src/
-        exclude: ^(docs/|tests/|cov_html/)
+        exclude: ^(docs/|tests/)
