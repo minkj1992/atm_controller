@@ -33,7 +33,7 @@ $ . .venv/bin/activate
 ![](./static/balance.png)
 ![](./static/deposit.png)
 ![](./static/withdraw.png)
-- test coverate
+- test coverage
 ![](./static/cov_report.png)
 
 ## 2. Structure
